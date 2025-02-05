@@ -10,7 +10,6 @@ const Blogs = () => {
   const [commentText, setCommentText] = useState("");
   const [comments, setComments] = useState({});
 
-  // State for new blog form
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [imageData, setImageData] = useState(null);
@@ -23,7 +22,6 @@ const Blogs = () => {
       likes: typeof blog.likes === "number" ? blog.likes : 0,
     }));
 
-    // Combine static and dynamic blogs, but avoid duplicates based on `id`
     const allBlogs = [
       ...updatedStaticBlogs,
       ...savedBlogs.filter((savedBlog) => !updatedStaticBlogs.some((staticBlog) => staticBlog.id === savedBlog.id)),
@@ -125,16 +123,14 @@ const Blogs = () => {
     window.open(whatsappURL, '_blank');
   };
 
-  // Function to handle blog deletion
   const handleDeleteBlog = (id) => {
     // Remove from state
     setBlogs((prevBlogs) => {
       const updatedBlogs = prevBlogs.filter((blog) => blog.id !== id);
-      localStorage.setItem("dynamicBlogs", JSON.stringify(updatedBlogs));  // Update localStorage
+      localStorage.setItem("dynamicBlogs", JSON.stringify(updatedBlogs));
       return updatedBlogs;
     });
 
-    // If the current selected blog is deleted, close the modal
     if (selectedBlog && selectedBlog.id === id) {
       setShowReadMoreModal(false);
       setSelectedBlog(null);
@@ -201,7 +197,7 @@ const Blogs = () => {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleDeleteBlog(blog.id);  // Call handleDeleteBlog on click
+                      handleDeleteBlog(blog.id);
                     }}
                     className="text-red-500 hover:text-red-700 cursor-pointer"
                   >
@@ -326,7 +322,7 @@ const Blogs = () => {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleDeleteBlog(selectedBlog.id);  // Handle delete in modal
+                      handleDeleteBlog(selectedBlog.id);
                     }}
                     className="text-red-500 hover:text-red-700 cursor-pointer"
                   >
