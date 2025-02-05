@@ -23,7 +23,13 @@ const Blogs = () => {
       likes: typeof blog.likes === "number" ? blog.likes : 0,
     }));
 
-    setBlogs([...updatedStaticBlogs, ...savedBlogs]);
+    // Combine static and dynamic blogs, but avoid duplicates based on `id`
+    const allBlogs = [
+      ...updatedStaticBlogs,
+      ...savedBlogs.filter((savedBlog) => !updatedStaticBlogs.some((staticBlog) => staticBlog.id === savedBlog.id)),
+    ];
+
+    setBlogs(allBlogs);
 
     const savedComments = JSON.parse(localStorage.getItem("comments")) || {};
     setComments(savedComments);
@@ -95,7 +101,7 @@ const Blogs = () => {
     const updatedBlogs = [...savedBlogs, newBlog];
     localStorage.setItem("dynamicBlogs", JSON.stringify(updatedBlogs));
 
-    setBlogs([...staticBlogs, ...updatedBlogs]);
+    setBlogs((prevBlogs) => [...prevBlogs, newBlog]);
 
     setTitle("");
     setContent("");
