@@ -236,12 +236,19 @@ const Blogs = () => {
                   className="w-full p-2 mb-4 border rounded"
                   required
                 />
+
+                {/* File Input with Border */}
+                <label className="w-full flex justify-center items-center p-2 mb-4 border-2 border-gray-300 rounded cursor-pointer bg-blue-500 text-white hover:bg-blue-600">
+                Choose File
                 <input
+                  id="fileInput"
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
-                  className="w-full mb-4"
+                  className="hidden"
                 />
+                </label>
+
                 {imagePreview && (
                   <img
                     src={imagePreview}
@@ -249,6 +256,7 @@ const Blogs = () => {
                     className="mb-4 w-full h-48 object-cover rounded"
                   />
                 )}
+
                 <div className="flex justify-end space-x-4">
                   <button
                     type="button"
@@ -257,6 +265,7 @@ const Blogs = () => {
                       setContent("");
                       setImageData(null);
                       setImagePreview(null);
+                      document.getElementById("fileInput").value = "";
                     }}
                     className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded"
                   >
@@ -270,6 +279,7 @@ const Blogs = () => {
                   </button>
                 </div>
               </form>
+
             </div>
           </div>
         )}
@@ -277,7 +287,7 @@ const Blogs = () => {
         {/* Read More Modal */}
         {showReadMoreModal && selectedBlog && (
           <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-            <div className="bg-white p-6 rounded-lg w-full max-w-2xl mx-4">
+            <div className="bg-white p-6 rounded-lg w-full max-w-2xl mx-4 max-h-[80vh] overflow-y-auto relative">
               <button
                 onClick={handleCloseModal}
                 className="absolute top-2 right-2 text-gray-600"
@@ -294,7 +304,7 @@ const Blogs = () => {
               )}
               <p className="text-gray-700 mb-4">{selectedBlog.content}</p>
               <p className="text-gray-500 text-sm">By {selectedBlog.author} on {selectedBlog.date}</p>
-
+            
               <div className="flex justify-between items-center mt-4">
                 <div className="flex items-center space-x-4">
                   <button
@@ -307,18 +317,18 @@ const Blogs = () => {
                     <FaThumbsUp size={16} />
                     <span>{selectedBlog.likes}</span>
                   </button>
-
+                  
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleShare(); 
+                      handleShare();
                     }}
                     className="text-green-500 hover:text-green-700 flex items-center space-x-1"
                   >
                     <FaShareAlt size={16} />
                     <span>Share</span>
                   </button>
-
+                  
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -330,6 +340,7 @@ const Blogs = () => {
                   </button>
                 </div>
               </div>
+
 
               {/* Comment Section */}
               <div className="mt-6">
